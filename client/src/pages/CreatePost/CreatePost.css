@@ -1,6 +1,6 @@
 .createPostPage {
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 2.5em);
   display: flex;
   justify-content: center;
   align-items: center;
