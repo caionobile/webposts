@@ -2,7 +2,7 @@
   font-family: Nunito;
   display: flex;
   flex-direction: column;
-  margin-bottom: 7px;
+  margin: 7px 3.5px;
   width: 25rem;
   border-radius: 12px;
   overflow: hidden;

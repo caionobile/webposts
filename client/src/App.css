@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap");
 
+
 body {
   margin: 0;
   padding: 0;
@@ -8,10 +9,31 @@ body {
 
 .App {
   display: flex;
+  font-family: Nunito;
   flex-direction: column;
   text-align: center;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   height: auto;
-  padding-top: 40px;
+  background-color: #b3bcc4;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 2.5em;
+  background-color: #188bd3;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.3em;
+  padding-left: 12px;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
 }

@@ -1,7 +1,6 @@
 .createPostPage {
-  font-family: Nunito;
   width: 100vw;
-  height: 70vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,12 +8,12 @@
 .formContainer {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 500px;
   height: auto;
   padding: 20px;
   border: 5px solid dodgerblue;
   border-radius: 5px;
+  background-color: #fff;
 }
 
 .formContainer label {

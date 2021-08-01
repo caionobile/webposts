@@ -6,8 +6,10 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Link to="create-post">Create a post</Link>
-        <Link to="/">Home</Link>
+        <div className="navbar">
+          <Link to="/">Home</Link>
+          <Link to="create-post">Create post</Link>
+        </div>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/create-post" exact component={CreatePost} />
