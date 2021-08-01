@@ -1,8 +1,9 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import * as Yup from "yup";
-import "./CreatePost.css"
+import "./CreatePost.css";
 
 function CreatePost() {
   const initialValues = {
@@ -11,9 +12,11 @@ function CreatePost() {
     username: "",
   };
 
+  const history = useHistory();
+
   const onSubmit = (data) => {
     axios.post("http://localhost:3001/posts", data).then(() => {
-      console.log("It worked");
+      history.push("/")
     });
   };
 

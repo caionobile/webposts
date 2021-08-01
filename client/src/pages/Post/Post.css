@@ -1,0 +1,43 @@
+.postPage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: calc(100vh - 2.5em);
+  width: 100%;
+}
+
+#post {
+  height: 90%;
+  flex: 50%;
+  margin-left: 1rem;
+}
+
+#post:hover {
+  box-shadow: none;
+  cursor: default;
+}
+
+.commentSection {
+  flex: 50%;
+  height: 90%;
+  display: flex;
+  margin-right: 1rem;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 700px) {
+  .postPage {
+    flex-direction: column;
+  }
+  #post {
+    margin-left: 0;
+  }
+  .commentSection {
+    width: 95%;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}
