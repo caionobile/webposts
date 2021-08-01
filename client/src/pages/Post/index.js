@@ -13,7 +13,7 @@ function Post() {
         setPost(res.data);
       })
       .catch((e) => console.log(e));
-  }, []);
+  }, [id]);
 
   return (
     <div className="postPage">
