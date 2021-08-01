@@ -8,8 +8,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const postById = await Posts.findAll({ where: { id: req.params.id } });
-  if (postById.length > 0) res.status(200).json(postById);
+  const postById = await Posts.findByPk(req.params.id);
+  if (postById) res.status(200).json(postById);
   else res.status(404).json({ error: "Post not found" });
 });
 
@@ -24,18 +24,18 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const postById = await Posts.findAll({ where: { id: req.params.id } });
-  if (postById.length > 0) {
-    const postUpdated = await Posts.update(req.body, {
+  const postById = await Posts.findByPk(req.params.id);
+  if (postById) {
+    await Posts.update(req.body, {
       where: { id: req.params.id },
     });
-    res.status(200).json(postUpdated);
+    res.status(200).json(postById);
   } else res.status(404).json({ error: "Post not found" });
 });
 
 router.delete("/:id", async (req, res) => {
-  const postById = await Posts.findAll({ where: { id: req.params.id } });
-  if (postById.length > 0) {
+  const postById = await Posts.findByPk(req.params.id);
+  if (postById) {
     await Posts.destroy({ where: { id: req.params.id } });
     res.status(200).json({ message: `Post ${req.params.id} deleted` });
   } else res.status(404).json({ error: "Post not found" });
