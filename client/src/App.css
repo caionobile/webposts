@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap");
 
-
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  background-color: #b3bcc4;
 }
 
 .App {
@@ -14,8 +14,6 @@ body {
   text-align: center;
   align-items: center;
   width: 100%;
-  
-  background-color: #b3bcc4;
 }
 
 .navbar {
