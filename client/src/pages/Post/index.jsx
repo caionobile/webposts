@@ -57,7 +57,7 @@ function Post() {
             <Card data={comment} key={key} />
           ))}
         </div>
-        <div className="addCommentContainer">
+        <div className="addCommentSection">
           <form>
             <input
               type="text"
