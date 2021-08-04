@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Post.css";
 import axios from "axios";
+import Card from "../../components/comments/CommentCard";
 
 function Post() {
   const { id } = useParams();
@@ -37,6 +38,7 @@ function Post() {
     axios
       .get(`http://localhost:3001/comments/${id}`)
       .then((res) => {
+        console.log(res.data);
         setComments(res.data);
       })
       .catch((e) => console.log(e));
@@ -52,9 +54,7 @@ function Post() {
       <div className="commentSection">
         <div className="commentsArea">
           {comments.map((comment, key) => (
-            <div className="comment" key={key}>
-              {comment.commentBody}
-            </div>
+            <Card data={comment} key={key} />
           ))}
         </div>
         <div className="addCommentContainer">
