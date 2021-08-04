@@ -14,7 +14,8 @@ function Post() {
     setComment(event.target.value);
   };
 
-  const addComment = () => {
+  const addComment = (event) => {
+    event.preventDefault();
     if (comment)
       axios
         .post("http://localhost:3001/comments", {
@@ -38,7 +39,6 @@ function Post() {
     axios
       .get(`http://localhost:3001/comments/${id}`)
       .then((res) => {
-        console.log(res.data);
         setComments(res.data);
       })
       .catch((e) => console.log(e));
@@ -58,14 +58,18 @@ function Post() {
           ))}
         </div>
         <div className="addCommentContainer">
-          <input
-            type="text"
-            placeholder="Comment here"
-            autoComplete="off"
-            value={comment}
-            onChange={setCommentHandler}
-          />
-          <button onClick={addComment}>Add comment</button>
+          <form>
+            <input
+              type="text"
+              placeholder="Comment here"
+              autoComplete="off"
+              value={comment}
+              onChange={setCommentHandler}
+            />
+            <button type="submit" onClick={addComment}>
+              Add comment
+            </button>
+          </form>
         </div>
       </div>
     </div>

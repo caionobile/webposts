@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { dateFormater } from "../../functions/formaters";
 
@@ -24,16 +24,19 @@ const Card = styled.div`
 `;
 
 function CommentCard({ data }) {
+  const [date, setDate] = useState("");
+
+  useEffect(() => {
+    if (date) return;
+    setDate(dateFormater(new Date()));
+  }, [date]);
+
   return (
     <Card>
       <div className="wrapper">
         <div className="header">
           <div>User</div>
-          <div>
-            {data.createdAt
-              ? dateFormater(data.createdAt)
-              : dateFormater(new Date())}
-          </div>
+          <div>{data.createdAt ? dateFormater(data.createdAt) : date}</div>
         </div>
         <div className="body">{data.commentBody}</div>
       </div>
