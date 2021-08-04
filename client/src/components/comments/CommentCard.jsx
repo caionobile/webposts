@@ -27,7 +27,6 @@ function CommentCard({ data }) {
   const [date, setDate] = useState("");
 
   useEffect(() => {
-    if (date) return;
     setDate(dateFormater(new Date()));
   }, [date]);
 
