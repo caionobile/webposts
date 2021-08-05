@@ -44,14 +44,14 @@
   margin: 5px 0 5px 0;
 }
 
-form {
+.commentForm {
   display: flex;
   gap: 0.5rem;
   height: 100%;
   flex: 8%;
 }
 
-form input {
+.commentInput {
   flex: 80%;
   padding: 0 5px 0 5px;
   margin-left: 10px;
@@ -60,7 +60,7 @@ form input {
   border-color: rgb(175, 175, 175);
 }
 
-form button {
+.commentButton {
   flex: 20%;
   margin-right: 10px;
   border-radius: 5px;

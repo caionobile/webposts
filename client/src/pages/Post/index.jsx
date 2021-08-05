@@ -58,15 +58,16 @@ function Post() {
           ))}
         </div>
         <div className="addCommentSection">
-          <form>
+          <form className="commentForm">
             <input
               type="text"
               placeholder="Comment here"
               autoComplete="off"
               value={comment}
               onChange={setCommentHandler}
+              className="commentInput"
             />
-            <button type="submit" onClick={addComment}>
+            <button type="submit" onClick={addComment} className="commentButton">
               Add comment
             </button>
           </form>
