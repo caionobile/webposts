@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import styles from "./SignUp.module.css";
+
 function SignUp() {
   const initialValues = {
     username: "",
@@ -17,17 +19,17 @@ function SignUp() {
     });
   };
   return (
-    <div>
+    <div className={styles.wrapper}>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        <Form className="formContainer">
+        <Form className={styles.formContainer}>
           <label>Username: </label>
           <ErrorMessage name="username" component="span" />
           <Field
-            className="userInput"
+            className={styles.input}
             name="username"
             placeholder=""
             autoComplete="off"
@@ -35,13 +37,15 @@ function SignUp() {
           <label>Password: </label>
           <ErrorMessage name="password" component="span" />
           <Field
-          type="password"
-            className="pwdInput"
+            type="password"
+            className={styles.input}
             name="password"
             placeholder=""
             autoComplete="off"
           />
-          <button type="submit">Sign Up</button>
+          <button className={styles.button} type="submit">
+            Sign Up
+          </button>
         </Form>
       </Formik>
     </div>
