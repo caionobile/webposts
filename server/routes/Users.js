@@ -10,6 +10,8 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { username, password } = req.body;
+  const user = await Users.findOne({ where: { username: username } });
+  if (user) return res.status(400).json({ error: "Username already exists" });
   bcrypt.hash(password, 10).then((hash) => {
     Users.create({ username: username, password: hash });
   });
