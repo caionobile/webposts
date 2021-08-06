@@ -13,10 +13,11 @@ function SignUp() {
     username: Yup.string().min(3).max(15).required("Username is required"),
     password: Yup.string().min(3).max(20).required("Password is required"),
   });
-  const onSubmit = (data) => {
-    axios.post("http://localhost:3001/auth", data).then((res) => {
-      console.log(res);
-    });
+  const onSubmit = (data, { resetForm }) => {
+    axios
+      .post("http://localhost:3001/auth", data)
+      .then((res) => console.log(res))
+      .catch(() => resetForm());
   };
   return (
     <div className={styles.wrapper}>
