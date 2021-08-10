@@ -18,14 +18,19 @@ function Post() {
     event.preventDefault();
     if (comment)
       axios
-        .post("http://localhost:3001/comments", {
-          commentBody: comment,
-          PostId: id,
-        })
+        .post(
+          "http://localhost:3001/comments",
+          {
+            commentBody: comment,
+            PostId: id,
+          },
+          { headers: { accessToken: sessionStorage.getItem("accessToken") } }
+        )
         .then(() => {
           setComments([...comments, { commentBody: comment }]);
           setComment("");
-        });
+        })
+        .catch(() => alert("Must be logged in to comment"));
   };
 
   useEffect(() => {
@@ -67,7 +72,11 @@ function Post() {
               onChange={setCommentHandler}
               className="commentInput"
             />
-            <button type="submit" onClick={addComment} className="commentButton">
+            <button
+              type="submit"
+              onClick={addComment}
+              className="commentButton"
+            >
               Add comment
             </button>
           </form>

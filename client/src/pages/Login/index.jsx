@@ -3,8 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
+import { useHistory } from "react-router-dom";
 
 function Login() {
+  const history = useHistory();
   const initialValues = {
     username: "",
     password: "",
@@ -16,7 +18,10 @@ function Login() {
   const onSubmit = (data, { resetForm }) => {
     axios
       .post("http://localhost:3001/auth/login", data)
-      .then((res) => console.log(res))
+      .then((res) => {
+        sessionStorage.setItem("accessToken", res.data.accessToken);
+        history.push("/");
+      })
       .catch(() => resetForm());
   };
   return (

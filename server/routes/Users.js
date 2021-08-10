@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
+const { sign } = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   const allUsers = await Users.findAll();
@@ -32,8 +33,9 @@ router.post("/login", async (req, res) => {
           error: "Username or password is incorrect. Authentication failed",
         });
 
+      const accessToken = sign({ id: user.id, username: user.username }, "5247d3f8-f962-11eb-9a03-0242ac130003");
       return res.status(200).json({
-        message: "Success",
+        accessToken: accessToken,
       });
     });
   } catch (e) {

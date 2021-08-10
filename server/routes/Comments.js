@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Comments, Posts } = require("../models");
+const { validateToken } = require("../middlewares/AuthMiddleware");
 
 router.get("/:postId", async (req, res) => {
   const { postId } = req.params;
@@ -13,7 +14,7 @@ router.get("/:postId", async (req, res) => {
   else res.status(404).json({ error: "Empty comment section" });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", validateToken, async (req, res) => {
   try {
     const comment = req.body;
     await Comments.create(comment);
