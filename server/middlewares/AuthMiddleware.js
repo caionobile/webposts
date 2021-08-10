@@ -8,7 +8,10 @@ const validateToken = (req, res, next) => {
       accessToken,
       "5247d3f8-f962-11eb-9a03-0242ac130003"
     );
-    if (validToken) return next();
+    if (validToken) {
+      req.username = validToken.username;
+      return next();
+    }
   } catch (e) {
     return res.status(401).json({ error: e });
   }
