@@ -30,8 +30,9 @@ function App() {
         <Router>
           <div className="navbar">
             <Link to="/">Home</Link>
-            <Link to="/create-post">Create post</Link>
-            {!auth && (
+            {auth ? (
+              <Link to="/create-post">Create post</Link>
+            ) : (
               <>
                 <Link to="/login">Login</Link>
                 <Link to="/signup">Sign Up</Link>
@@ -40,9 +41,10 @@ function App() {
           </div>
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/create-post" exact component={CreatePost} />
             <Route path="/post/:id" exact component={Post} />
-            {!auth && (
+            {auth ? (
+              <Route path="/create-post" exact component={CreatePost} />
+            ) : (
               <>
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
