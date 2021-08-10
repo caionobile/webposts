@@ -20,26 +20,24 @@ body {
 .navbar {
   position: fixed;
   top: 0;
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 2.5em;
   background-color: #188bd3;
 }
 
 .navbar a {
-  display: block;
-  float: left;
   color: #fff;
   text-decoration: none;
   font-weight: bold;
   font-size: 1.3em;
   padding-left: 12px;
-  padding-top: 5px;
-  height: 100%;
 }
 
 #logoff {
   color: black;
-  float: right;
+  margin-left: auto;
   margin-right: 12px;
 }
 
