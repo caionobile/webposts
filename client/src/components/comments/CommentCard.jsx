@@ -28,13 +28,14 @@ function CommentCard({ data }) {
 
   useEffect(() => {
     setDate(dateFormater(new Date()));
-  }, [date]);
+    console.log(data)
+  }, [data]);
 
   return (
     <Card>
       <div className="wrapper">
         <div className="header">
-          <div>User</div>
+          <div>{data.username}</div>
           <div>{data.createdAt ? dateFormater(data.createdAt) : date}</div>
         </div>
         <div className="body">{data.commentBody}</div>

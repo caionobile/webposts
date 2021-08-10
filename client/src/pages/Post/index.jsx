@@ -24,10 +24,13 @@ function Post() {
             commentBody: comment,
             PostId: id,
           },
-          { headers: { accessToken: sessionStorage.getItem("accessToken") } }
+          { headers: { accessToken: localStorage.getItem("accessToken") } }
         )
-        .then(() => {
-          setComments([...comments, { commentBody: comment }]);
+        .then((res) => {
+          setComments([
+            ...comments,
+            { commentBody: comment, username: res.data.username },
+          ]);
           setComment("");
         })
         .catch(() => alert("Must be logged in to comment"));

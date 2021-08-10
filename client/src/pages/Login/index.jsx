@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import styles from "./Login.module.css";
 import { useHistory } from "react-router-dom";
+import { AuthContext } from "../../helpers/AuthContext";
 
 function Login() {
   const history = useHistory();
+  const { setAuth } = useContext(AuthContext);
   const initialValues = {
     username: "",
     password: "",
@@ -19,7 +21,8 @@ function Login() {
     axios
       .post("http://localhost:3001/auth/login", data)
       .then((res) => {
-        sessionStorage.setItem("accessToken", res.data.accessToken);
+        localStorage.setItem("accessToken", res.data.accessToken);
+        setAuth(true);
         history.push("/");
       })
       .catch(() => resetForm());
