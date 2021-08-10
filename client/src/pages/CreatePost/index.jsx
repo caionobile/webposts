@@ -15,15 +15,19 @@ function CreatePost() {
   const history = useHistory();
 
   const onSubmit = (data) => {
-    axios.post("http://localhost:3001/posts", data).then(() => {
-      history.push("/");
-    });
+    axios
+      .post("http://localhost:3001/posts", data, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then(() => {
+        history.push("/");
+      })
+      .catch(() => alert("User must be logged in"));
   };
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     postText: Yup.string().required("Message is required"),
-    username: Yup.string().min(3).max(15).required("Username is required"),
   });
   return (
     <div className={styles.createPostPage}>
@@ -46,14 +50,6 @@ function CreatePost() {
           <Field
             id={styles.inputCreatePost}
             name="postText"
-            placeholder=""
-            autoComplete="off"
-          />
-          <label>Username: </label>
-          <ErrorMessage name="username" component="span" />
-          <Field
-            id={styles.inputCreatePost}
-            name="username"
             placeholder=""
             autoComplete="off"
           />

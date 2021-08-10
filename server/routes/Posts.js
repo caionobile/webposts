@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Posts } = require("../models");
+const { validateToken } = require("../middlewares/AuthMiddleware");
 
 router.get("/", async (req, res) => {
   const allPosts = await Posts.findAll();
@@ -13,9 +14,10 @@ router.get("/:id", async (req, res) => {
   else res.status(404).json({ error: "Post not found" });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", validateToken, async (req, res) => {
   try {
     const post = req.body;
+    post.username = req.username;
     await Posts.create(post);
     res.status(201).json(post);
   } catch (e) {

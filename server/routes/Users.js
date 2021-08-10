@@ -17,7 +17,11 @@ router.post("/", async (req, res) => {
   bcrypt.hash(password, 10).then((hash) => {
     Users.create({ username: username, password: hash });
   });
-  res.status(201).json({ message: "User created" });
+  const accessToken = sign(
+    { username: username },
+    "5247d3f8-f962-11eb-9a03-0242ac130003"
+  );
+  res.status(201).json({ accessToken: accessToken });
 });
 
 router.post("/login", async (req, res) => {
@@ -50,7 +54,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/token", validateToken, (req, res) => {
-   res.status(200).json(req.username);
+  res.status(200).json(req.username);
 });
 
 router.patch("/:id", async (req, res) => {});

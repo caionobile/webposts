@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import styles from "./SignUp.module.css";
+import { useHistory } from "react-router-dom";
+import { AuthContext } from "../../helpers/AuthContext";
 
 function SignUp() {
+  const history = useHistory();
+  const { setAuth } = useContext(AuthContext);
   const initialValues = {
     username: "",
     password: "",
@@ -16,7 +20,11 @@ function SignUp() {
   const onSubmit = (data, { resetForm }) => {
     axios
       .post("http://localhost:3001/auth", data)
-      .then((res) => console.log(res))
+      .then((res) => {
+        localStorage.setItem("accessToken", res.data.accessToken);
+        setAuth(true);
+        history.push("/");
+      })
       .catch(() => resetForm());
   };
   return (
