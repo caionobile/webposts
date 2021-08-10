@@ -38,6 +38,14 @@ function App() {
                 <Link to="/signup">Sign Up</Link>
               </>
             )}
+            <a
+              id="logoff"
+              onClick={() => {
+                alert("Work in progress!");
+              }}
+            >
+              Logoff
+            </a>
           </div>
           <Switch>
             <Route path="/" exact component={Home} />
