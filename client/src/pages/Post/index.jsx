@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Post.css";
 import axios from "axios";
 import Card from "../../components/comments/CommentCard";
+import { AuthContext } from "../../helpers/AuthContext";
 
 function Post() {
   const { id } = useParams();
+  const { auth } = useContext(AuthContext);
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
@@ -36,6 +38,23 @@ function Post() {
         .catch(() => alert("Must be logged in to comment"));
   };
 
+  const deleteComment = (commentId) => {
+    axios
+      .delete(`http://localhost:3001/comments/${commentId}`, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then(() => {
+        setComments(
+          comments.filter((val) => {
+            return val.id !== commentId;
+          })
+        );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   useEffect(() => {
     axios
       .get(`http://localhost:3001/posts/${id}`)
@@ -48,6 +67,7 @@ function Post() {
       .get(`http://localhost:3001/comments/${id}`)
       .then((res) => {
         setComments(res.data);
+        console.log();
       })
       .catch((e) => console.log(e));
   }, [id]);
@@ -62,7 +82,13 @@ function Post() {
       <div className="commentSection">
         <div className="commentsArea">
           {comments.map((comment, key) => (
-            <Card data={comment} key={key} />
+            <>
+              <Card data={comment} key={key}>
+                {auth.username === comment.username ? (
+                  <button onClick={() => deleteComment(comment.id)}>X</button>
+                ) : null}
+              </Card>
+            </>
           ))}
         </div>
         <div className="addCommentSection">

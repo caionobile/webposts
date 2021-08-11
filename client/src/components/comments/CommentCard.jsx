@@ -21,9 +21,20 @@ const Card = styled.div`
     align-items: flex-start;
     word-break: break-all;
   }
+  #deleteCommentButton {
+    display: none;
+  }
+  .wrapper:hover {
+    #deleteCommentButton {
+      display: inline;
+    }
+    #options {
+      display: none;
+    }
+  }
 `;
 
-function CommentCard({ data }) {
+function CommentCard({ data, children }) {
   const [date, setDate] = useState("");
 
   useEffect(() => {
@@ -35,7 +46,11 @@ function CommentCard({ data }) {
       <div className="wrapper">
         <div className="header">
           <div>{data.username}</div>
-          <div>{data.createdAt ? dateFormater(data.createdAt) : date}</div>
+          <div className="test">
+            {data.createdAt ? dateFormater(data.createdAt) : date}
+            <span id="deleteCommentButton">{children}</span>
+            <span id="options">{children ? <button>...</button> : null}</span>
+          </div>
         </div>
         <div className="body">{data.commentBody}</div>
       </div>
