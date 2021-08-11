@@ -8,10 +8,11 @@ import "./App.css";
 import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import LogoutModal from "./components/LogoutModal";
 
 function App() {
   const [auth, setAuth] = useState(false);
-
+  const [showLogoff, setShowLogoff] = useState(false);
   useEffect(() => {
     axios
       .get("http://localhost:3001/auth/token", {
@@ -24,6 +25,17 @@ function App() {
         setAuth(false);
       });
   }, []);
+
+  const openLogoffModal = () => {
+    setShowLogoff((prev) => !prev);
+  };
+
+  const logout = () => {
+    setShowLogoff(false);
+    setAuth(false);
+    localStorage.removeItem("accessToken");
+  };
+
   return (
     <div className="App">
       <AuthContext.Provider value={{ auth, setAuth }}>
@@ -31,21 +43,24 @@ function App() {
           <div className="navbar">
             <Link to="/">Home</Link>
             {auth ? (
-              <Link to="/create-post">Create post</Link>
+              <>
+                <Link to="/create-post">Create post</Link>
+                <a
+                  id="logoff"
+                  onClick={() => {
+                    openLogoffModal();
+                    console.log(showLogoff);
+                  }}
+                >
+                  Logout
+                </a>
+              </>
             ) : (
               <>
                 <Link to="/login">Login</Link>
                 <Link to="/signup">Sign Up</Link>
               </>
             )}
-            <a
-              id="logoff"
-              onClick={() => {
-                alert("Work in progress!");
-              }}
-            >
-              Logoff
-            </a>
           </div>
           <Switch>
             <Route path="/" exact component={Home} />
@@ -60,6 +75,11 @@ function App() {
             )}
           </Switch>
         </Router>
+        <LogoutModal
+          showModal={showLogoff}
+          setShowModal={setShowLogoff}
+          onLogout={logout}
+        />
       </AuthContext.Provider>
     </div>
   );
