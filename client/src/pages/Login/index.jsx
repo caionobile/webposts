@@ -22,7 +22,7 @@ function Login() {
       .post("http://localhost:3001/auth/login", data)
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
-        setAuth(true);
+        setAuth({ username: res.data.username, id: res.data.id, status: true });
         history.push("/");
       })
       .catch(() => resetForm());

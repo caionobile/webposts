@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
     { username: username },
     "5247d3f8-f962-11eb-9a03-0242ac130003"
   );
-  res.status(201).json({ accessToken: accessToken });
+  res.status(201).json({ accessToken: accessToken, username: username });
 });
 
 router.post("/login", async (req, res) => {
@@ -44,6 +44,8 @@ router.post("/login", async (req, res) => {
       );
       return res.status(200).json({
         accessToken: accessToken,
+        username: username,
+        id: user.id,
       });
     });
   } catch (e) {
@@ -54,7 +56,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/token", validateToken, (req, res) => {
-  res.status(200).json(req.username);
+  res.status(200).json({ username: req.username });
 });
 
 router.patch("/:id", async (req, res) => {});

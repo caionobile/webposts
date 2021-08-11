@@ -22,7 +22,7 @@ function SignUp() {
       .post("http://localhost:3001/auth", data)
       .then((res) => {
         localStorage.setItem("accessToken", res.data.accessToken);
-        setAuth(true);
+        setAuth({ username: res.data.username, status: true });
         history.push("/");
       })
       .catch(() => resetForm());
