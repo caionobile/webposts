@@ -60,7 +60,6 @@ function LogoffModal({ showModal, setShowModal, onLogout, username }) {
     (e) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
-        console.log("I pressed");
       }
     },
     [setShowModal, showModal]

@@ -20,7 +20,6 @@ function App() {
       })
       .then((res) => {
         setAuth({ username: res.data.username, id: res.data.id, status: true });
-        console.log(res);
       })
       .catch(() => {
         setAuth({ ...auth, status: false });
@@ -51,7 +50,6 @@ function App() {
                   id="logoff"
                   onClick={() => {
                     openLogoffModal();
-                    console.log(showLogoff);
                   }}
                 >
                   Logout

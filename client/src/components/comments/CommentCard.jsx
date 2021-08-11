@@ -28,7 +28,6 @@ function CommentCard({ data }) {
 
   useEffect(() => {
     setDate(dateFormater(new Date()));
-    console.log(data)
   }, [data]);
 
   return (
