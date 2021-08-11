@@ -43,7 +43,7 @@ const CloseModalButton = styled(MdClose)`
   color: red;
 `;
 
-function LogoffModal({ showModal, setShowModal, onLogout }) {
+function LogoffModal({ showModal, setShowModal, onLogout, username }) {
   const modalRef = useRef();
 
   const animation = useSpring({
@@ -78,7 +78,7 @@ function LogoffModal({ showModal, setShowModal, onLogout }) {
           <animated.div style={animation}>
             <ModalWrapper>
               <div>
-                Are you sure?{" "}
+                Are you sure, {username}?
                 <CloseModalButton
                   aria-label="Close"
                   onClick={() => setShowModal(false)}
