@@ -9,7 +9,7 @@ const validateToken = (req, res, next) => {
       "5247d3f8-f962-11eb-9a03-0242ac130003"
     );
     if (validToken) {
-      req.username = validToken.username;
+      req.user = validToken;
       return next();
     }
   } catch {
