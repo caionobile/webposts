@@ -17,8 +17,13 @@ router.post("/", async (req, res) => {
   bcrypt.hash(password, 10).then((hash) => {
     Users.create({ username: username, password: hash });
   });
+  const previousUser = await Users.findAll({
+    limit: 1,
+    order: [["createdAt", "DESC"]],
+  });
+  const userId = previousUser[0].id + 1;
   const accessToken = sign(
-    { username: username },
+    { id: userId, username: username },
     "5247d3f8-f962-11eb-9a03-0242ac130003"
   );
   res.status(201).json({ accessToken: accessToken, username: username });
@@ -37,7 +42,6 @@ router.post("/login", async (req, res) => {
         return res.status(400).json({
           error: "Username or password is incorrect. Authentication failed",
         });
-
       const accessToken = sign(
         { id: user.id, username: user.username },
         "5247d3f8-f962-11eb-9a03-0242ac130003"
