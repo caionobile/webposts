@@ -70,6 +70,15 @@
   color: white;
 }
 
+.deleteButton {
+  margin-left: 6px;
+  cursor: pointer;
+  background-color: red;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
 @media (max-width: 700px) {
   .postPage {
     flex-direction: column;

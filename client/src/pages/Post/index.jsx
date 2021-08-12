@@ -88,7 +88,14 @@ function Post() {
           {comments.map((comment, key) => (
             <Card data={comment} key={key}>
               {auth.username === comment.username ? (
-                <button onClick={() => deleteComment(comment.id)}>X</button>
+                <>
+                  <button
+                    className="deleteButton"
+                    onClick={() => deleteComment(comment.id)}
+                  >
+                    X
+                  </button>
+                </>
               ) : null}
             </Card>
           ))}
