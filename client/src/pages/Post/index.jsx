@@ -31,7 +31,11 @@ function Post() {
         .then((res) => {
           setComments([
             ...comments,
-            { commentBody: comment, username: res.data.username },
+            {
+              id: res.data.id,
+              commentBody: comment,
+              username: res.data.username,
+            },
           ]);
           setComment("");
         })
@@ -82,13 +86,11 @@ function Post() {
       <div className="commentSection">
         <div className="commentsArea">
           {comments.map((comment, key) => (
-            <>
-              <Card data={comment} key={key}>
-                {auth.username === comment.username ? (
-                  <button onClick={() => deleteComment(comment.id)}>X</button>
-                ) : null}
-              </Card>
-            </>
+            <Card data={comment} key={key}>
+              {auth.username === comment.username ? (
+                <button onClick={() => deleteComment(comment.id)}>X</button>
+              ) : null}
+            </Card>
           ))}
         </div>
         <div className="addCommentSection">

@@ -19,6 +19,10 @@ router.post("/", validateToken, async (req, res) => {
     const comment = req.body;
     comment.username = req.username;
     await Comments.create(comment);
+    const comments = await Comments.findAll({
+      where: { PostId: comment.PostId },
+    });
+    comment.id = comments[comments.length - 1].id;
     res.status(201).json(comment);
   } catch (e) {
     res.status(400).json({
@@ -28,9 +32,13 @@ router.post("/", validateToken, async (req, res) => {
 });
 
 router.delete("/:commentId", validateToken, async (req, res) => {
-  const commentId = req.params.commentId;
-  await Comments.destroy({ where: { id: commentId } });
-  res.status(200).json({ message: "Comment deleted" });
+  try {
+    const commentId = req.params.commentId;
+    await Comments.destroy({ where: { id: commentId } });
+    res.status(200).json({ message: "Comment deleted" });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 module.exports = router;
