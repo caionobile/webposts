@@ -24,6 +24,7 @@ function App() {
       .catch(() => {
         setAuth({ ...auth, status: false });
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openLogoffModal = () => {
@@ -41,19 +42,19 @@ function App() {
       <AuthContext.Provider value={{ auth, setAuth }}>
         <Router>
           <div className="navbar">
-            {auth.username}
             <Link to="/">Home</Link>
             {auth.status ? (
               <>
                 <Link to="/create-post">Create post</Link>
-                <a
+                <div id="username">{auth.username}</div>
+                <button
                   id="logoff"
                   onClick={() => {
                     openLogoffModal();
                   }}
                 >
                   Logout
-                </a>
+                </button>
               </>
             ) : (
               <>

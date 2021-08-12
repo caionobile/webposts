@@ -35,10 +35,21 @@ body {
   padding-left: 12px;
 }
 
-#logoff {
-  color: black;
+#username {
   margin-left: auto;
   margin-right: 12px;
+  font-size: 1.3em;
+}
+
+#logoff {
+  color: white;
+  margin-right: 12px;
+  font-size: 1em;
+  background-color: #15202b;
+  border: 1px solid #000;
+  border-radius: 3px;
+  width: 100px;
+  height: 80%;
 }
 
 .navbar a:hover {
