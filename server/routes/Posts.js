@@ -17,7 +17,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", validateToken, async (req, res) => {
   try {
     const post = req.body;
-    post.username = req.username;
+    post.username = req.user.username;
     await Posts.create(post);
     res.status(201).json(post);
   } catch (e) {

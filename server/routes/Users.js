@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/token", validateToken, (req, res) => {
-  res.status(200).json({ username: req.username });
+  res.status(200).json({ id: req.user.id, username: req.user.username });
 });
 
 router.patch("/:id", async (req, res) => {});
