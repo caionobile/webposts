@@ -4,6 +4,7 @@ import "./Post.css";
 import axios from "axios";
 import Card from "../../components/comments/CommentCard";
 import { AuthContext } from "../../helpers/AuthContext";
+import { RiThumbUpLine, RiThumbUpFill } from "react-icons/ri";
 
 function Post() {
   const { id } = useParams();
@@ -12,6 +13,37 @@ function Post() {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
 
+  const likePost = (postId) => {
+    axios
+      .post(
+        "http://localhost:3001/likes",
+        { PostId: postId },
+        { headers: { accessToken: localStorage.getItem("accessToken") } }
+      )
+      .then((res) => {
+        setPost(
+          post.map((post) => {
+            if (post.id === postId) {
+              if (res.data.liked)
+                return {
+                  ...post,
+                  liked: !post.liked,
+                  Likes: [...post.Likes, 0],
+                };
+              else {
+                const likesArray = post.Likes;
+                likesArray.pop();
+                return { ...post, liked: !post.liked, Likes: likesArray };
+              }
+            } else {
+              return post;
+            }
+          })
+        );
+      })
+      .catch(() => alert("Must be logged in to like a post"));
+  };
+  
   const setCommentHandler = (event) => {
     setComment(event.target.value);
   };
@@ -61,9 +93,20 @@ function Post() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/posts/${id}`)
+      .get(
+        `http://localhost:3001/posts/${id}`,
+        localStorage.getItem("accessToken") && {
+          headers: { accessToken: localStorage.getItem("accessToken") },
+        }
+      )
       .then((res) => {
-        setPost(res.data);
+        let postById = [];
+        if (Object.keys(res.data).length === 2) {
+          postById = res.data.postById;
+          const { liked } = res.data;
+          postById.liked = liked;
+        } else postById = res.data;
+        setPost(postById);
       })
       .catch((e) => console.log(e));
 
@@ -81,6 +124,21 @@ function Post() {
         <div className="title"> {post.title}</div>
         <div className="body"> {post.postText}</div>
         <div className="footer"> {post.username}</div>
+      </div>
+      <div className="actions">
+        {post.liked ? (
+          <RiThumbUpFill
+            onClick={() => likePost(post.id)}
+            className="likeThumb"
+            id="liked"
+          />
+        ) : (
+          <RiThumbUpLine
+            onClick={() => likePost(post.id)}
+            className="likeThumb"
+          />
+        )}
+        <label>{post.Likes?.length}</label>
       </div>
       <div className="commentSection">
         <div className="commentsArea">

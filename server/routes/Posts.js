@@ -11,33 +11,26 @@ router.get("/", userToken, async (req, res) => {
     const liked = allPosts.map((post) =>
       post.Likes.some((like) => like.UserId == id)
     );
-    allPosts = {allPosts: allPosts, liked: liked}
+    allPosts = { allPosts: allPosts, liked: liked };
   }
   res.status(200).json(allPosts);
 });
 
-/* router.get("/likedPosts", userToken, async (req, res) => {
+router.get("/:id", userToken, async (req, res) => {
+  let postById = await Posts.findByPk(req.params.id, { include: [Likes] });
+  if (!postById) return res.status(404).json({ error: "Post not found" });
   try {
-    const allPosts = await Posts.findAll({ include: [Likes] });
-    const { id } = req.user;
-    const teste = [];
-    const newArr = allPosts.map((post) =>
-      post.Likes.some((like) => like.UserId == id)
-    );
-    for (let i = 0; i < newArr.length; i++) {
-      teste.push({ liked: newArr[i] });
+    if(req.user){
+      const { id } = req.user;
+      const liked = postById.Likes.some((like) => like.UserId == id);
+      postById = {postById: postById, liked: liked }
     }
-    res.status(200).json(teste);
+    res.status(200).json(postById);
   } catch (e) {
     res.status(400).json(e);
   }
-}); */
-
-router.get("/:id", async (req, res) => {
-  const postById = await Posts.findByPk(req.params.id);
-  if (postById) res.status(200).json(postById);
-  else res.status(404).json({ error: "Post not found" });
 });
+
 
 router.post("/", validateToken, async (req, res) => {
   try {
