@@ -21,29 +21,22 @@ function Post() {
         { headers: { accessToken: localStorage.getItem("accessToken") } }
       )
       .then((res) => {
-        setPost(
-          post.map((post) => {
-            if (post.id === postId) {
-              if (res.data.liked)
-                return {
-                  ...post,
-                  liked: !post.liked,
-                  Likes: [...post.Likes, 0],
-                };
-              else {
-                const likesArray = post.Likes;
-                likesArray.pop();
-                return { ...post, liked: !post.liked, Likes: likesArray };
-              }
-            } else {
-              return post;
-            }
-          })
-        );
+        console.log(post);
+        if (res.data.liked)
+          setPost({
+            ...post,
+            liked: !post.liked,
+            Likes: [...post.Likes, 0],
+          });
+        else {
+          const likesArray = post.Likes;
+          likesArray.pop();
+          setPost({ ...post, liked: !post.liked, Likes: likesArray });
+        }
       })
       .catch(() => alert("Must be logged in to like a post"));
   };
-  
+
   const setCommentHandler = (event) => {
     setComment(event.target.value);
   };
