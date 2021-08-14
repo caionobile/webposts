@@ -32,6 +32,7 @@ function App() {
   };
 
   const logout = () => {
+    window.location.reload();
     setshowLogout(false);
     setAuth({ username: "", id: 0, status: false });
     localStorage.removeItem("accessToken");
