@@ -12,7 +12,7 @@ import LogoutModal from "./components/LogoutModal";
 
 function App() {
   const [auth, setAuth] = useState({ username: "", id: 0, status: false });
-  const [showLogoff, setShowLogoff] = useState(false);
+  const [showLogout, setshowLogout] = useState(false);
   useEffect(() => {
     axios
       .get("http://localhost:3001/auth/token", {
@@ -28,11 +28,11 @@ function App() {
   }, []);
 
   const openLogoffModal = () => {
-    setShowLogoff((prev) => !prev);
+    setshowLogout((prev) => !prev);
   };
 
   const logout = () => {
-    setShowLogoff(false);
+    setshowLogout(false);
     setAuth({ username: "", id: 0, status: false });
     localStorage.removeItem("accessToken");
   };
@@ -77,8 +77,8 @@ function App() {
           </Switch>
         </Router>
         <LogoutModal
-          showModal={showLogoff}
-          setShowModal={setShowLogoff}
+          showModal={showLogout}
+          setShowModal={setshowLogout}
           onLogout={logout}
           username={auth.username}
         />
