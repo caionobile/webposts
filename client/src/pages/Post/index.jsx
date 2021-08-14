@@ -71,7 +71,6 @@ function Post() {
       .get(`http://localhost:3001/comments/${id}`)
       .then((res) => {
         setComments(res.data);
-        console.log();
       })
       .catch((e) => console.log(e));
   }, [id]);
