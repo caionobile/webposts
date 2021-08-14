@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Home.css";
-import { AiOutlineLike, AiTwotoneLike } from "react-icons/ai";
+import { RiThumbUpLine, RiThumbUpFill } from "react-icons/ri";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -80,13 +80,13 @@ function Home() {
             </div>
             <div className="actions">
               {value.liked ? (
-                <AiTwotoneLike
+                <RiThumbUpFill
                   onClick={() => likePost(value.id)}
                   className="likeThumb"
                   id="liked"
                 />
               ) : (
-                <AiOutlineLike
+                <RiThumbUpLine
                   onClick={() => likePost(value.id)}
                   className="likeThumb"
                 />
