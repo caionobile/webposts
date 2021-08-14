@@ -39,6 +39,20 @@
   margin-right: 7px;
 }
 
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 7px;
+}
+
+#liked {
+  color: #0064a1;
+}
+.likeThumb {
+  cursor: pointer;
+  padding: 2px 5px 0 0;
+}
+
 @media (max-width: 406px) {
   .post {
     width: 95vw;

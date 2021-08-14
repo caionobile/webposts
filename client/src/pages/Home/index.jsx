@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Home.css";
+import { AiOutlineLike, AiTwotoneLike } from "react-icons/ai";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -19,28 +20,48 @@ function Home() {
         setPosts(
           posts.map((post) => {
             if (post.id === postId) {
-              if (res.data.liked) return { ...post, Likes: [...post.Likes, 0] };
+              if (res.data.liked)
+                return {
+                  ...post,
+                  liked: !post.liked,
+                  Likes: [...post.Likes, 0],
+                };
               else {
                 const likesArray = post.Likes;
                 likesArray.pop();
-                return { ...post, Likes: likesArray };
+                return { ...post, liked: !post.liked, Likes: likesArray };
               }
             } else {
               return post;
             }
           })
         );
-      });
+      })
+      .catch(() => alert("Must be logged in to like a post"));
   };
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/posts")
+      .get(
+        "http://localhost:3001/posts",
+        localStorage.getItem("accessToken") && {
+          headers: { accessToken: localStorage.getItem("accessToken") },
+        }
+      )
       .then((res) => {
-        setPosts(res.data);
+        let allPosts = [];
+        if (res.data.liked) {
+          allPosts = res.data.allPosts;
+          const { liked } = res.data;
+          for (let i = 0; i < allPosts.length; i++) {
+            allPosts[i].liked = liked[i];
+          }
+        } else allPosts = res.data;
+        setPosts(allPosts);
       })
       .catch((e) => console.log(e));
   }, []);
+
   return (
     <div>
       {posts.map((value, key) => {
@@ -57,8 +78,21 @@ function Home() {
               <div className="body"> {value.postText}</div>
               <div className="footer">{value.username}</div>
             </div>
-            <button onClick={() => likePost(value.id)}>Like</button>
-            <label>{value.Likes.length}</label>
+            <div className="actions">
+              {value.liked ? (
+                <AiTwotoneLike
+                  onClick={() => likePost(value.id)}
+                  className="likeThumb"
+                  id="liked"
+                />
+              ) : (
+                <AiOutlineLike
+                  onClick={() => likePost(value.id)}
+                  className="likeThumb"
+                />
+              )}
+              <label>{value.Likes.length}</label>
+            </div>
           </>
         );
       })}
