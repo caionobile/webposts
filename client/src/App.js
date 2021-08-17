@@ -68,14 +68,17 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/post/:id" exact component={Post} />
             {auth.status ? (
-              <Route path="/create-post" exact component={CreatePost} />
+              <>
+                <Route path="/create-post" exact component={CreatePost} />
+                <Route path="*" exact component={Home} />
+              </>
             ) : (
               <>
                 <Route path="/login" exact component={Login} />
                 <Route path="/signup" exact component={SignUp} />
+                <Route path="*" exact component={Home} />
               </>
             )}
-            <Route path="*" exact component={Home} />
           </Switch>
         </Router>
         <LogoutModal
