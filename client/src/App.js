@@ -75,6 +75,7 @@ function App() {
                 <Route path="/signup" exact component={SignUp} />
               </>
             )}
+            <Route path="*" exact component={Home} />
           </Switch>
         </Router>
         <LogoutModal
