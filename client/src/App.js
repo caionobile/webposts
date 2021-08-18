@@ -13,7 +13,6 @@ import LogoutModal from "./components/LogoutModal";
 function App() {
   const [auth, setAuth] = useState({ username: "", id: 0, status: false });
   const [showLogout, setshowLogout] = useState(false);
-  
   useEffect(() => {
     axios
       .get("http://localhost:3001/auth/token", {
