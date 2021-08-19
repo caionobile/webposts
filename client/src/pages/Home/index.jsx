@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import "./Home.css";
 import { RiThumbUpLine, RiThumbUpFill } from "react-icons/ri";
+import { FaRegComment } from "react-icons/fa";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -41,35 +42,38 @@ function Home() {
   };
 
   useEffect(() => {
-    axios
-      .get(
-        "http://localhost:3001/posts",
-        localStorage.getItem("accessToken") && {
-          headers: { accessToken: localStorage.getItem("accessToken") },
-        }
-      )
-      .then((res) => {
-        let allPosts = [];
-        if (res.data.liked) {
-          allPosts = res.data.allPosts;
-          const { liked } = res.data;
-          for (let i = 0; i < allPosts.length; i++) {
-            allPosts[i].liked = liked[i];
+    if (!localStorage.getItem("accessToken")) {
+      history.push("/login");
+    } else {
+      axios
+        .get(
+          "http://localhost:3001/posts",
+          localStorage.getItem("accessToken") && {
+            headers: { accessToken: localStorage.getItem("accessToken") },
           }
-        } else allPosts = res.data;
-        setPosts(allPosts);
-      })
-      .catch((e) => console.log(e));
-  }, []);
+        )
+        .then((res) => {
+          let allPosts = [];
+          if (res.data.liked) {
+            allPosts = res.data.allPosts;
+            const { liked } = res.data;
+            for (let i = 0; i < allPosts.length; i++) {
+              allPosts[i].liked = liked[i];
+            }
+          } else allPosts = res.data;
+          setPosts(allPosts);
+        })
+        .catch((e) => console.log(e));
+    }
+  }, [history]);
 
   return (
     <div>
       {posts.map((value, key) => {
         return (
-          <>
+          <div key={key}>
             <div
               className="post"
-              key={key}
               onClick={() => {
                 history.push(`/post/${value.id}`);
               }}
@@ -92,8 +96,15 @@ function Home() {
                 />
               )}
               <label>{value.Likes.length}</label>
+              <FaRegComment
+                className="commentBubble"
+                onClick={() => {
+                  history.push(`/post/${value.id}`);
+                }}
+              />
+              <label>{value.Comments.length}</label>
             </div>
-          </>
+          </div>
         );
       })}
     </div>

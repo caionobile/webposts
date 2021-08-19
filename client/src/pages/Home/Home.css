@@ -53,6 +53,11 @@
   padding: 2px 5px 0 0;
 }
 
+.commentBubble{
+  cursor: pointer;
+  padding: 2px 2px 0 7px;
+}
+
 @media (max-width: 406px) {
   .post {
     width: 95vw;

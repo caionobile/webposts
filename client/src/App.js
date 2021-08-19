@@ -13,17 +13,23 @@ import LogoutModal from "./components/LogoutModal";
 function App() {
   const [auth, setAuth] = useState({ username: "", id: 0, status: false });
   const [showLogout, setshowLogout] = useState(false);
+
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/auth/token", {
-        headers: { accessToken: localStorage.getItem("accessToken") },
-      })
-      .then((res) => {
-        setAuth({ username: res.data.username, id: res.data.id, status: true });
-      })
-      .catch(() => {
-        setAuth({ ...auth, status: false });
-      });
+    if (!auth.s)
+      axios
+        .get("http://localhost:3001/auth/token", {
+          headers: { accessToken: localStorage.getItem("accessToken") },
+        })
+        .then((res) => {
+          setAuth({
+            username: res.data.username,
+            id: res.data.id,
+            status: true,
+          });
+        })
+        .catch(() => {
+          setAuth({ ...auth, status: false });
+        });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,9 +49,9 @@ function App() {
       <AuthContext.Provider value={{ auth, setAuth }}>
         <Router>
           <div className="navbar">
-            <Link to="/">Home</Link>
             {auth.status ? (
               <>
+                <Link to="/">Home</Link>
                 <Link to="/create-post">Create post</Link>
                 <div id="username">{auth.username}</div>
                 <button

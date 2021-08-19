@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import "./Post.css";
 import axios from "axios";
 import Card from "../../components/comments/CommentCard";
@@ -9,6 +9,7 @@ import { RiThumbUpLine, RiThumbUpFill } from "react-icons/ri";
 function Post() {
   const { id } = useParams();
   const { auth } = useContext(AuthContext);
+  const history = useHistory();
   const [post, setPost] = useState([]);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
@@ -35,6 +36,19 @@ function Post() {
         }
       })
       .catch(() => alert("Must be logged in to like a post"));
+  };
+
+  const deletePost = (postId) => {
+    axios
+      .delete(`http://localhost:3001/posts/${postId}`, {
+        headers: { accessToken: localStorage.getItem("accessToken") },
+      })
+      .then(() => {
+        history.push("/");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const setCommentHandler = (event) => {
@@ -85,36 +99,46 @@ function Post() {
   };
 
   useEffect(() => {
-    axios
-      .get(
-        `http://localhost:3001/posts/${id}`,
-        localStorage.getItem("accessToken") && {
-          headers: { accessToken: localStorage.getItem("accessToken") },
-        }
-      )
-      .then((res) => {
-        let postById = [];
-        if (Object.keys(res.data).length === 2) {
-          postById = res.data.postById;
-          const { liked } = res.data;
-          postById.liked = liked;
-        } else postById = res.data;
-        setPost(postById);
-      })
-      .catch((e) => console.log(e));
+    if (!localStorage.getItem("accessToken")) history.push("/login");
+    else {
+      axios
+        .get(
+          `http://localhost:3001/posts/${id}`,
+          localStorage.getItem("accessToken") && {
+            headers: { accessToken: localStorage.getItem("accessToken") },
+          }
+        )
+        .then((res) => {
+          let postById = [];
+          if (Object.keys(res.data).length === 2) {
+            postById = res.data.postById;
+            const { liked } = res.data;
+            postById.liked = liked;
+          } else postById = res.data;
+          setPost(postById);
+        })
+        .catch((e) => console.log(e));
 
-    axios
-      .get(`http://localhost:3001/comments/${id}`)
-      .then((res) => {
-        setComments(res.data);
-      })
-      .catch((e) => console.log(e));
-  }, [id]);
+      axios
+        .get(`http://localhost:3001/comments/${id}`)
+        .then((res) => {
+          setComments(res.data);
+          console.log(res.data);
+        })
+        .catch((e) => console.log(e));
+    }
+  }, [id, history]);
 
   return (
     <div className="postPage">
       <div className="post" id="post">
-        <div className="title"> {post.title}</div>
+        <div className="title">
+          {post.title}
+          {post.username === auth.username && (
+            <button onClick={() => deletePost(post.id)}>DELETE</button>
+          )}
+        </div>
+
         <div className="body"> {post.postText}</div>
         <div className="footer"> {post.username}</div>
       </div>

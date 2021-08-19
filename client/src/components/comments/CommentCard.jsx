@@ -49,7 +49,7 @@ function CommentCard({ data, children }) {
           <div className="test">
             {data.createdAt ? dateFormater(data.createdAt) : date}
             <span id="deleteCommentButton">{children}</span>
-            <span id="options">{children ? <button>...</button> : null}</span>
+            <span id="options">{children && <button>...</button>}</span>
           </div>
         </div>
         <div className="body">{data.commentBody}</div>
